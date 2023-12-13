@@ -14,7 +14,7 @@ class Database
       $pdo = new PDO("mysql:dbname=$this->db_name;host=$this->db_host", $this->db_user, $this->db_pass);
       return $pdo;
     } catch(PDOException $err) {
-      echo json_encode(["error" => "Sorry, something went wrong | Database"]);
+      echo json_encode(["error" => "Sorry, something went wrong | Database $err"]);
       exit();
     }
   }
