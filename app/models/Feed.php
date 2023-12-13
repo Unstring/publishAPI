@@ -58,4 +58,22 @@ class Feed extends Database
             return false;
         }
     }
+
+    public function makepost($data){
+        try {
+            $stm = $this->pdo->prepare("INSERT INTO `Users`(`full_name`, `email`, `username`, `password_hash`, `signup_at`) VALUES (?, ?, ?, ?, ?)");
+      
+            $title = $data[0];
+            $description = $data[1];
+            $mediaUrl = $data[2];
+            $userId = $data[3];
+            $time = time();
+      
+            $stm->execute([$title, $description, $mediaUrl, $userId, $time]);
+      
+            return true;
+          } catch (PDOException $err) {
+            return false;
+          }
+    }
 }

@@ -73,4 +73,71 @@ class FeedService extends Requests
 
         echo json_encode($result);
     }
+
+    public function post()
+    {
+        $method = $this->getMethod();
+        $body = $this->parseBodyInput();
+
+        $result = [];
+
+        $user_model = new Feed();
+        $feed_model = new Feed();
+        $jwt = new JWT();
+        $authorization = new Authorization();
+
+        if ($method == 'POST') {
+
+            $token = $authorization->getAuthorization();
+            if ($token) {
+                $user = $jwt->validateJWT($token);
+
+                if ($user->id) {
+
+                    $userId = $user->id;
+
+                    $userExists = $user_model->list($userId->user_id);
+
+                    if ($userExists) {
+
+                        if (!empty($body['title']) && !empty($body['description']) && !empty($body['media'])) {
+
+                            $title = $body['title'];
+                            $description = $body['description'];
+                            $media = $body['media'];
+
+                            $create_user = $feed_model->makepost([$title, $description, $media, $userId->user_id]);
+                            if ($create_user) {
+                                http_response_code(200);
+                                $result = [
+                                    "message" => "Created",
+                                    "login" => BASE_URL . "users/login"
+                                ];
+                            } else {
+                                http_response_code(406);
+                                $result['error'] = "Sorry, something went wrong, try again";
+                            }
+                        } else {
+                            http_response_code(406);
+                            $result['error'] = "Input fields are empty";
+                        }
+                    } else {
+                        http_response_code(401);
+                        $result['error'] = "Unauthorized, user dosen't exist";
+                    }
+                } else {
+                    http_response_code(401);
+                    $result['error'] = "Unauthorized, please, verify your token";
+                }
+            } else {
+                http_response_code(401);
+                $result['error'] = "Unauthorized, can't find token!";
+            }
+        } else {
+            http_response_code(405);
+            $result['error'] = "HTTP Method not allowed";
+        }
+
+        echo json_encode($result);
+    }
 }

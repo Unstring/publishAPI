@@ -48,7 +48,6 @@ class User extends Database
     }
   }
 
-
   public function resetPassword($email, $otp, $newPassword)
   {
     try {
@@ -102,8 +101,6 @@ class User extends Database
     }
   }
 
-
-
   public function verifyOTP($email, $otp)
   {
     try {
@@ -155,7 +152,6 @@ class User extends Database
       return false;
     }
   }
-
 
   public function signIn($data)
   {
@@ -261,29 +257,16 @@ class User extends Database
     }
   }
 
-
   public function getUserIdByUsername($username)
-    {
-        try {
-            $stm = $this->pdo->prepare("SELECT user_id FROM Users WHERE username = ?");
-            $stm->execute([$username]);
+  {
+    try {
+      $stm = $this->pdo->prepare("SELECT user_id FROM Users WHERE username = ?");
+      $stm->execute([$username]);
 
-            $userId = $stm->fetchColumn();
-            return $userId ? $userId : null;
-        } catch (PDOException $err) {
-            return null;
-        }
+      $userId = $stm->fetchColumn();
+      return $userId ? $userId : null;
+    } catch (PDOException $err) {
+      return null;
     }
-
-  // public function storeOTP($email, $otp, $expirationTime)
-  // {
-  //   try {
-  //     $stm = $this->pdo->prepare("INSERT INTO otp_tokens (email, otp, expiration_time) VALUES (?, ?, ?)");
-  //     $stm->execute([$email, $otp, $expirationTime]);
-
-  //     return true;
-  //   } catch (PDOException $err) {
-  //     return false;
-  //   }
-  // }
+  }
 }
