@@ -32,6 +32,7 @@ $sqlContent = file_get_contents($sqlFile);
 // Execute multi-query SQL commands
 if ($conn->multi_query($sqlContent)) {
     echo "SQL commands executed successfully<br>";
+    echo "$sqlContent";
 } else {
     echo "Error executing SQL commands: " . $conn->error . "<br>";
 }
