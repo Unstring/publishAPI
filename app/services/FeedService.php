@@ -86,7 +86,7 @@ class FeedService extends Requests
         $jwt = new JWT();
         $authorization = new Authorization();
 
-        if ($method == 'POST') {
+        if ($method === 'POST') {
 
             $token = $authorization->getAuthorization();
             if ($token) {
