@@ -96,8 +96,8 @@ class Feed extends Database
                         paper_id,
                         SUM(reaction_type = 1) AS `like`,
                         SUM(reaction_type = 2) AS `dislike`,
-                        SUM(reaction_type = 3) AS `celebrate`,
-                        SUM(reaction_type = 4) AS `insightfull`,
+                        SUM(reaction_type = 3) AS `insightfull`,
+                        SUM(reaction_type = 4) AS `celebrate`,
                         SUM(reaction_type = 5) AS `support`
                     FROM 
                         Reactions
