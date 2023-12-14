@@ -45,7 +45,7 @@ class Feed extends Database
                         paper_id
                 ) reactions ON p.paper_id = reactions.paper_id
             LIMIT $id
-            ORDER DESC;
+            ORDER DESC
             ");
             $stm->execute();
             // var_dump($stm);
