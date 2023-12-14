@@ -30,12 +30,12 @@ class FeedService extends Requests
     }
 
 
-    public function list()
+    public function list($id)
     {
         $method = $this->getMethod();
 
         $result = [];
-
+        $feed_model = new Feed();
         $user_model = new User();
         $jwt = new JWT();
         $authorization = new Authorization();
@@ -53,7 +53,14 @@ class FeedService extends Requests
                     $userExists = $user_model->list($userId->user_id);
 
                     if ($userExists) {
-                        $result['data'] = $userExists;
+                        $feedExists = $feed_model->list_for_user($id[0],$userId->user_id);
+
+                        if ($feedExists) {
+                            $result['data'] = $feedExists;
+                        } else {
+                            http_response_code(401);
+                            $result['error'] = "Feed dosen't exist";
+                        }
                     } else {
                         http_response_code(401);
                         $result['error'] = "Unauthorized, user dosen't exist";
@@ -63,8 +70,14 @@ class FeedService extends Requests
                     $result['error'] = "Unauthorized, please, verify your token";
                 }
             } else {
-                http_response_code(401);
-                $result['error'] = "Unauthorized, can't find token!";
+                $feedExists = $feed_model->list($id[0]);
+                // var_dump($feedExists);
+                if ($feedExists) {
+                    $result['data'] = $feedExists;
+                } else {
+                    http_response_code(401);
+                    $result['error'] = "Feed dosen't exist";
+                }
             }
         } else {
             http_response_code(405);
