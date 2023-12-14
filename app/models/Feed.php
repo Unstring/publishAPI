@@ -44,6 +44,8 @@ class Feed extends Database
                     GROUP BY 
                         paper_id
                 ) reactions ON p.paper_id = reactions.paper_id
+                ORDER BY 
+                p.paper_id DESC
             LIMIT $id
             ");
             $stm->execute();
