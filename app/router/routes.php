@@ -14,6 +14,7 @@ $routes = [
 
   '/feed/post'                        => 'FeedService@post',
   '/feedbycount/{id}'                        => 'FeedService@index',
+  '/feedbycountandoptionaluser/{id}'                        => 'FeedService@list',
   '/react/{id}/{id}'                  => 'ReactionService@reactPost',
   '/'                                 => 'HomeService@index',
 
