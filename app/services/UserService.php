@@ -435,7 +435,7 @@ class UserService extends Requests
 
                 if ($avatarSaved) {
                   $result['message'] = "Avatar uploaded successfully.";
-                  $result['newFileName'] = $newFileName;
+                  $result['avatar'] = "https://publish.inct.tech/avatar/$newFileName";
                 } else {
                   $result['error'] = "Failed to update avatar.";
                 }

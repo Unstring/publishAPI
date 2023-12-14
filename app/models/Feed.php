@@ -45,7 +45,7 @@ class Feed extends Database
                         paper_id
                 ) reactions ON p.paper_id = reactions.paper_id
             LIMIT $id
-
+            ORDER BY paper_id DESC;
             ");
             $stm->execute();
             // var_dump($stm);
@@ -68,7 +68,7 @@ class Feed extends Database
             $mediaUrl = $data[2];
             $userId = $data[3];
             $time = time();
-      
+
             $stm->execute([$title, $description, $mediaUrl, $userId, $time]);
       
             return true;
