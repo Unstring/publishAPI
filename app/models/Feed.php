@@ -61,7 +61,7 @@ class Feed extends Database
 
     public function makepost($data){
         try {
-            $stm = $this->pdo->prepare("INSERT INTO `Users`(`full_name`, `email`, `username`, `password_hash`, `signup_at`) VALUES (?, ?, ?, ?, ?)");
+            $stm = $this->pdo->prepare("INSERT INTO `Papers`(`title`, `content`, `media_url`, `author_id`, `publication_date`) VALUES (?, ?, ?, ?, ?)");
       
             $title = $data[0];
             $description = $data[1];
