@@ -63,12 +63,12 @@ class UserService extends Requests
 
       $token = $authorization->getAuthorization();
 
-      var_dump($jwt->validateJWT($token));
+      // var_dump($jwt->validateJWT($token));
 
       if ($token) {
         $user = $jwt->validateJWT($token);
 
-        echo "$user";
+        var_dump($user);
 
         if ($user) {
 
@@ -76,8 +76,7 @@ class UserService extends Requests
 
           $userExists = $user_model->dashboard($userId->id);
 
-          echo "$userId->id";
-          echo "$userExists";
+          var_dump($userExists);
 
           if ($userExists) {
             $result['data'] = $userExists;
