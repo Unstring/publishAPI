@@ -10,7 +10,7 @@ class HomeService extends Requests
       http_response_code(200);
       $result = [
         "message" => "hello, There welcome!",
-        "guide" => "https://apiforcode.dailywith.me/",
+        "guide" => "https://paper.inct.tech",
         "author" => "Amit Anand"
       ];
     } else {
