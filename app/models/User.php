@@ -37,6 +37,7 @@ class User extends Database
     ");
       $stm->execute([$id]);
 
+      var_dump($stm);
       if ($stm->rowCount() > 0) {
         // Fetch all rows returned by the query
         return $stm->fetchAll(PDO::FETCH_ASSOC);
