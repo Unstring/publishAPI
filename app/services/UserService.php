@@ -72,6 +72,8 @@ class UserService extends Requests
 
           $userExists = $user_model->dashboard($userId->id);
 
+          echo "$userId->id";
+          echo "$userExists";
           if ($userExists) {
             $result['data'] = $userExists;
           } else {
