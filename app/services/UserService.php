@@ -62,9 +62,13 @@ class UserService extends Requests
     if ($method == 'GET') {
 
       $token = $authorization->getAuthorization();
+      
+      echo "$token";
 
       if ($token) {
         $user = $jwt->validateJWT($token);
+
+        echo "$user";
 
         if ($user) {
 
@@ -74,6 +78,7 @@ class UserService extends Requests
 
           echo "$userId->id";
           echo "$userExists";
+
           if ($userExists) {
             $result['data'] = $userExists;
           } else {
