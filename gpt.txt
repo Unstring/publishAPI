@@ -1,0 +1,23 @@
+can you please qrite a sql query for the tables like
+
+	Comments
+	Connections
+	Followers
+	Papers
+	Paper_Metadata
+	Permissions
+	Reactions
+	Roles
+	Role_Permissions
+	Users
+
+From Users
+
+full_name	
+username	
+avatar	
+email	
+role	
+
+from Comments
+

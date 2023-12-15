@@ -30,12 +30,41 @@ class User extends Database
   {
     try {
       $stm = $this->pdo->prepare("
-      SELECT u.id, u.name, u.email, us.question_id, us.language_id, us.user_code, us.submission_time, us.is_correct 
-      FROM users u 
-      LEFT JOIN user_solutions us ON u.id = us.user_id 
-      WHERE u.id = ?
-    ");
-      $stm->execute([$id]);
+      SELECT
+          P.paper_id,
+          P.title AS paper_title,
+          P.content AS paper_content,
+          P.media_url AS paper_media_url,
+          P.abstract AS paper_abstract,
+          P.publication_date,
+          R.reaction_id,
+          R.user_id AS reaction_user_id,
+          R.reaction_type,
+          RP.role_id AS role_permission_role_id,
+          RP.permission_id AS role_permission_permission_id,
+          F.follower_id,
+          F.follower_user_id,
+          F.followed_at AS follower_followed_at,
+          C.comment_id,
+          C.user_id AS comment_user_id,
+          C.comment_text,
+          C.timestamp AS comment_timestamp
+      FROM
+          Papers P
+      LEFT JOIN
+          Reactions R ON P.paper_id = R.paper_id
+      LEFT JOIN
+          Role_Permissions RP ON RP.role_id IS NOT NULL
+      LEFT JOIN
+          Followers F ON F.user_id IS NOT NULL
+      LEFT JOIN
+          Connections CN ON CN.user_id IS NOT NULL
+      LEFT JOIN
+          Comments C ON P.paper_id = C.paper_id
+      WHERE
+          (R.user_id = ? OR RP.role_id = ? OR F.user_id = ? OR CN.user_id = ? OR C.user_id = ?)
+  ");
+      $stm->execute([$id, $id, $id, $id, $id]);
 
       var_dump($stm);
       if ($stm->rowCount() > 0) {
