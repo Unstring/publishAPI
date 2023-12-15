@@ -68,13 +68,13 @@ class UserService extends Requests
       if ($token) {
         $user = $jwt->validateJWT($token);
 
-        var_dump($user);
+        // var_dump($user);
 
         if ($user) {
 
           $userId = $user->id;
 
-          $userExists = $user_model->dashboard($userId->id);
+          $userExists = $user_model->dashboard($userId->user_id);
 
           var_dump($userExists);
 
