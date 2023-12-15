@@ -62,8 +62,8 @@ class UserService extends Requests
     if ($method == 'GET') {
 
       $token = $authorization->getAuthorization();
-      
-      echo "$token";
+
+      // echo "$token";
 
       if ($token) {
         $user = $jwt->validateJWT($token);
