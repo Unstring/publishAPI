@@ -29,70 +29,69 @@ class User extends Database
   public function dashboard($id)
   {
     try {
-      // $stm = $this->pdo->prepare("
-      // SELECT
-      //     P.paper_id,
-      //     P.title AS paper_title,
-      //     P.content AS paper_content,
-      //     P.media_url AS paper_media_url,
-      //     P.abstract AS paper_abstract,
-      //     P.publication_date,
-      //     R.reaction_id,
-      //     R.user_id AS reaction_user_id,
-      //     R.reaction_type,
-      //     RP.role_id AS role_permission_role_id,
-      //     RP.permission_id AS role_permission_permission_id,
-      //     F.follower_id,
-      //     F.follower_user_id,
-      //     F.followed_at AS follower_followed_at,
-      //     C.comment_id,
-      //     C.user_id AS comment_user_id,
-      //     C.comment_text,
-      //     C.timestamp AS comment_timestamp
-      // FROM
-      //     Papers P
-      // LEFT JOIN
-      //     Reactions R ON P.paper_id = R.paper_id
-      // LEFT JOIN
-      //     Role_Permissions RP ON RP.role_id IS NOT NULL
-      // LEFT JOIN
-      //     Followers F ON F.user_id IS NOT NULL
-      // LEFT JOIN
-      //     Connections CN ON CN.user_id IS NOT NULL
-      // LEFT JOIN
-      //     Comments C ON P.paper_id = C.paper_id
-      // WHERE
-      //     (R.user_id = ? OR RP.role_id = ? OR F.user_id = ? OR CN.user_id = ? OR C.user_id = ?)
-      // ");$stm->execute([$id, $id, $id, $id, $id]);
-
       $stm = $this->pdo->prepare("
-          SELECT
-              P.paper_id,
-              P.title AS paper_title,
-              P.content AS paper_content,
-              P.media_url AS paper_media_url,
-              P.abstract AS paper_abstract,
-              P.publication_date,
-              GROUP_CONCAT(DISTINCT CONCAT_WS('|', R.reaction_id, R.user_id, RU.full_name, RU.username, R.reaction_type) SEPARATOR ';') AS all_reactions,
-              GROUP_CONCAT(DISTINCT CONCAT_WS('|', C.comment_id, C.user_id, CU.full_name, CU.username, C.comment_text, C.timestamp) SEPARATOR ';') AS all_comments
-          FROM
-              Papers P
-          LEFT JOIN
-              Reactions R ON P.paper_id = R.paper_id
-          LEFT JOIN
-              Users RU ON R.user_id = RU.user_id
-          LEFT JOIN
-              Comments C ON P.paper_id = C.paper_id
-          LEFT JOIN
-              Users CU ON C.user_id = CU.user_id
-          WHERE
-              RU.user_id = ? OR CU.user_id = ?
-          GROUP BY
-              P.paper_id;
-      ");
-      
-      $stm->execute([$id, $id]);
-      // var_dump($stm);
+      SELECT
+          P.paper_id,
+          P.title AS paper_title,
+          P.content AS paper_content,
+          P.media_url AS paper_media_url,
+          P.abstract AS paper_abstract,
+          P.publication_date,
+          R.reaction_id,
+          R.user_id AS reaction_user_id,
+          R.reaction_type,
+          RP.role_id AS role_permission_role_id,
+          RP.permission_id AS role_permission_permission_id,
+          F.follower_id,
+          F.follower_user_id,
+          F.followed_at AS follower_followed_at,
+          C.comment_id,
+          C.user_id AS comment_user_id,
+          C.comment_text,
+          C.timestamp AS comment_timestamp
+      FROM
+          Papers P
+      LEFT JOIN
+          Reactions R ON P.paper_id = R.paper_id
+      LEFT JOIN
+          Role_Permissions RP ON RP.role_id IS NOT NULL
+      LEFT JOIN
+          Followers F ON F.user_id IS NOT NULL
+      LEFT JOIN
+          Connections CN ON CN.user_id IS NOT NULL
+      LEFT JOIN
+          Comments C ON P.paper_id = C.paper_id
+      WHERE
+          (R.user_id = ? OR RP.role_id = ? OR F.user_id = ? OR CN.user_id = ? OR C.user_id = ?)
+      ");$stm->execute([$id, $id, $id, $id, $id]);
+
+      // $stm = $this->pdo->prepare("
+      //     SELECT
+      //         P.paper_id,
+      //         P.title AS paper_title,
+      //         P.content AS paper_content,
+      //         P.media_url AS paper_media_url,
+      //         P.abstract AS paper_abstract,
+      //         P.publication_date,
+      //         GROUP_CONCAT(DISTINCT CONCAT_WS('|', R.reaction_id, R.user_id, RU.full_name, RU.username, R.reaction_type) SEPARATOR ';') AS all_reactions,
+      //         GROUP_CONCAT(DISTINCT CONCAT_WS('|', C.comment_id, C.user_id, CU.full_name, CU.username, C.comment_text, C.timestamp) SEPARATOR ';') AS all_comments
+      //     FROM
+      //         Papers P
+      //     LEFT JOIN
+      //         Reactions R ON P.paper_id = R.paper_id
+      //     LEFT JOIN
+      //         Users RU ON R.user_id = RU.user_id
+      //     LEFT JOIN
+      //         Comments C ON P.paper_id = C.paper_id
+      //     LEFT JOIN
+      //         Users CU ON C.user_id = CU.user_id
+      //     WHERE
+      //         RU.user_id = ? OR CU.user_id = ?
+      //     GROUP BY
+      //         P.paper_id;
+      // ");
+      // $stm->execute([$id, $id]);
+
       if ($stm->rowCount() > 0) {
         // Fetch all rows returned by the query
         return $stm->fetchAll(PDO::FETCH_ASSOC);
